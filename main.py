@@ -7,9 +7,28 @@ with open('data/sample_sales.csv', newline='') as csvfile:
     for row in spamreader:
         #print(row)
 
-        producto = row['producto']
-        cantidad = int(row['cantidad'])
-        ingresos = float(row['precio'])
+        venta_id = row['venta_id']
+        producto = row['producto'].strip()
+        if not producto:
+            print(f'Producto vacio de la venta No. {venta_id} no valida')
+            continue
+        try:
+          cantidad = int(row['cantidad'])
+        except ValueError:
+            print(f'La cantidad de la venta No. {venta_id} no es valida')
+            continue
+        if cantidad < 1:
+            print(f'La cantidad de la venta No. {venta_id} es cero o negativo no valida')
+            continue
+
+        try:
+            precio = float(row['precio'])
+        except ValueError:
+            print(f'El precio de la venta No. {venta_id} no es valida')
+            continue
+        if precio < 0:
+            print(f'El precio de la venta No. {venta_id} es negativo no valida')
+            continue
 
         #print(producto)
         if producto not in resumen:
@@ -19,23 +38,26 @@ with open('data/sample_sales.csv', newline='') as csvfile:
                 'ingresos': 0
             }
         resumen[producto]['cantidad'] += cantidad
-        resumen[producto]['ingresos'] += cantidad * ingresos
+        resumen[producto]['ingresos'] += cantidad * precio
         transacciones += 1
 
-total_vendido = sum(registro['cantidad'] for registro in resumen.values() )
+if len(resumen) < 1:
+    print('No se ha encontrado ningun producto')
+else:
+    total_vendido = sum(registro['cantidad'] for registro in resumen.values() )
 
-total_valor = sum(registro['ingresos'] for registro in resumen.values() )
+    total_valor = sum(registro['ingresos'] for registro in resumen.values() )
 
-print(f'Numero de transacciones {transacciones}')
-print(f'Unidades vendidas {total_vendido}')
-print(f'Ingresos totales {total_valor}')
+    print(f'Numero de transacciones {transacciones}')
+    print(f'Unidades vendidas {total_vendido}')
+    print(f'Ingresos totales {total_valor}')
 
-print('Ingresos por producto')
-for registro in resumen.values():
-    print(registro['producto'], registro['ingresos'])
+    print('Ingresos por producto')
+    for registro in resumen.values():
+        print(registro['producto'], registro['ingresos'])
 
-productoMax = max(resumen.values(),
-                  key=lambda registro: registro['ingresos'])
+    productoMax = max(resumen.values(),
+                      key=lambda registro: registro['ingresos'])
 
-print('Productos con mayores ingresos')
-print(f'{productoMax['producto']} {productoMax['ingresos']}')
+    print('Productos con mayores ingresos')
+    print(f'{productoMax['producto']} {productoMax['ingresos']}')

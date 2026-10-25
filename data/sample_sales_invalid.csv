@@ -1,0 +1,7 @@
+venta_id,fecha,cliente,producto,cantidad,precio
+1001,2026-09-01,Ana,"",2,25.5
+1002,2026-09-01,Carlos,Mouse,1,-15.0
+1003,2026-09-01,Pedro,Monitor,abc,180.0
+1004,2026-09-01,Ana,Mouse,0,0
+1005,2026-09-01,Raquel,Case,0,15.0
+1006,2026-09-01,Jose,    ,1,15.0
