@@ -1,0 +1,14 @@
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# PyCharm
+.idea/
+
+# Environment variables and secrets
+.env
+.env.*
+!.env.example
